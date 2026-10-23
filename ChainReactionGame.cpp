@@ -3,7 +3,12 @@ To run this file, Type these commands on terminal
 g++ ChainReactionGame.cpp
 ./a.out
 */
-#include<bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <queue>
+#include <utility>
 using namespace std;
 
 #define defaultIdOfEmptyCell -1
@@ -41,7 +46,7 @@ class Cell{
             bool isTopRightCorner = (!rowNumber && colNumber == tableColCount-1);
             bool isBottomLeftCorner = (rowNumber == tableRowCount-1 && !colNumber);
             bool isCornerCell =  isTopLeftCorner || isTopRightCorner || isBottomLeftCorner || isBottomRightCorner;
-            bool isEdgeCell = !isCornerCell && !(rowNumber && colNumber) ||  rowNumber == tableRowCount-1 || colNumber == tableColCount-1;
+            bool isEdgeCell = !isCornerCell && (rowNumber == 0 || colNumber == 0 || rowNumber == tableRowCount-1 || colNumber == tableColCount-1);
 
             typeOfCell = isCornerCell ? cornerCell : isEdgeCell ? edgeCell : innerCell;
 
@@ -370,8 +375,11 @@ int main(){
         while( i < arrayOfPlayers.size()) {
         
             cout<<"player "<<i<<" turn : enter the location \n";
-            cin>>inputRow>>inputCol;
-            if(inputRow <= 0 && inputRow >= tableRowCount-1 || inputCol <= 0 && inputCol >= tableColCount-1){
+            if (!(cin >> inputRow >> inputCol)) {
+                cout << "Input ended; exiting game." << endl;
+                return 0;
+            }
+            if(inputRow < 0 || inputRow >= tableRowCount || inputCol < 0 || inputCol >= tableColCount){
                 cout<<"please enter a valid cell location \n";
                 continue;
             }
